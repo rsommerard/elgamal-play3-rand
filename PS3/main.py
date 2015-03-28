@@ -38,29 +38,28 @@ if __name__ == '__main__':
     h = response['h']
     q = p - 1
 
-    m0 = 423424224
+    m0 = 1
     r, s0 = sign(m0)
-    m1 = 432423432243
+    m1 = 2
     _, s1 = sign(m1)
 
     tmp, _, _ = XGCD(r, q)
 
     while(tmp != 1):
+        print('Change PK')
         response = server.query('/PK/sommerard/change')
-        p = response['p']
-        g = response['g']
-        h = response['h']
+        p = response['p'] # nombre premier
+        g = response['g'] # g générateur
+        h = response['h'] # g^x mod p
         q = p - 1
         r, s0 = sign(m0)
         _, s1 = sign(m1)
         tmp, _, _ = XGCD(r, q)
 
-    if((r >= 0) & (r < p) & (s0 >= 0) & (s0 < q)):
+    if((r > 0) & (r < p) & (s0 > 0) & (s0 < q)):
         gm0 = pow(g, m0, p)
         hr = pow(h, r, p)
         rs0 = pow(r, s0, p)
-        print(gm0)
-        print(((hr * rs0) % p))
         if(gm0 == ((hr * rs0) % p)):
             print('sign(m0) -> OK')
         else:
@@ -68,7 +67,7 @@ if __name__ == '__main__':
     else:
         print('sign(m0) -> FAIL')
 
-    if((r >= 0) & (r < p) & (s1 >= 0) & (s1 < q)):
+    """if((r > 0) & (r < p) & (s1 > 0) & (s1 < q)):
         gm1 = pow(g, m1, p)
         hr = pow(h, r, p)
         rs1 = pow(r, s1, q)
@@ -119,28 +118,5 @@ if __name__ == '__main__':
         print('okokokokok')
 
     parameters = { 'x': x }
-    response = server.query('/validate/sommerard', parameters)
-    print(response)
-
-    """p = response['p']
-    g = response['g']
-
-    x = random.randint(1, p-1)
-
-    # g^x mod p
-    gx = pow(g, x, p)
-
-    parameters = { 'h': gx }
-    response = server.query('/challenge/sommerard', parameters)
-
-    gy = response['ciphertext'][0]
-    mgxy = response['ciphertext'][1]
-
-    gxy = pow(gy, x, p)
-    invgxy = modinv(gxy, p)
-
-    m = (invgxy * mgxy) % p
-
-    parameters = { 'plaintext': m }
     response = server.query('/validate/sommerard', parameters)
     print(response)"""
