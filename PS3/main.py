@@ -67,11 +67,11 @@ if __name__ == '__main__':
     else:
         print('sign(m0) -> FAIL')
 
-    """if((r > 0) & (r < p) & (s1 > 0) & (s1 < q)):
+    if((r > 0) & (r < p) & (s1 > 0) & (s1 < q)):
         gm1 = pow(g, m1, p)
         hr = pow(h, r, p)
-        rs1 = pow(r, s1, q)
-        if(gm1 == ((hr * rs1) % q)):
+        rs1 = pow(r, s1, p)
+        if(gm1 == ((hr * rs1) % p)):
             print('sign(m1) -> OK')
         else:
             print('sign(m1) -> FAIL')
@@ -115,8 +115,8 @@ if __name__ == '__main__':
         print("s != s1 -> FAIL")
 
     if(h == pow(g, x, p)):
-        print('okokokokok')
+        print("h == pow(g, x, p) -> OK")
 
     parameters = { 'x': x }
     response = server.query('/validate/sommerard', parameters)
-    print(response)"""
+    print(response)
